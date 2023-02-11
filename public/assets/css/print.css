@@ -1,0 +1,29 @@
+body {
+  position: relative;
+}
+footer {
+  width: 100%;
+  border-top: 2px solid black;
+}
+
+@page {
+  size: A4;
+  margin: 11mm 17mm 17mm 17mm;
+}
+
+@media print {
+  footer {
+    position: fixed;
+    margin-top: 30px;
+    bottom: 0;
+  }
+
+  .content-block, p {
+    page-break-inside: avoid;
+  }
+
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+}

@@ -1,0 +1,21 @@
+ <?php while ($row = $st->fetch()) {?>
+          
+            <tr>
+              <td><?php echo $row['checkup_name']; ?></td>
+              <td><?php echo $root->getOneFieldById('checkup_types','type','id',$row['category_id']); ?></td>
+              <td><?php echo $row['checkup_type']; ?></td>
+              <td><?php echo $row['checkup_value']; ?></td>
+              <td>
+                <a href="?view=editInv&id=<?php echo $row['id']; ?>" class="btn btn-success float-left">Edit</a>
+                <form action="controller/inv/delete.php" id="delete_inv_<?php echo $row['id']; ?>" class="float-left ml-2 mr-2" method="post">
+                  <input type="hidden" name="test_id" value="<?php echo $row['id']; ?>">
+                  <input type="hidden" name="label" value="<?php echo $row['label']; ?>">
+                  <button class="btn btn-danger" type="submit" onclick="
+                    event.preventDefault();
+                    var r = confirm('are you sure ?');
+                    if (r == true) {document.getElementById('delete_inv_<?php echo $row['id']; ?>').submit();}">Delete</button>
+                </form>
+              </td>
+            </tr>
+
+          <?php } ?>
