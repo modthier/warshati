@@ -93,7 +93,8 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return view('order.show')->with('order',$order);
+        $orderWith = Order::withCount('stock')->where('id',$order->id)->first();
+        return view('order.show')->with('order',$orderWith);
     }
 
     /**
@@ -132,10 +133,8 @@ class OrderController extends Controller
             $stock->update([
             'quantity' => $new_stock
             ]);
-
             $order->stock()->detach();
             $order->delete();
-
        }
 
        $errors = Stock::checkStock($request->stocks);

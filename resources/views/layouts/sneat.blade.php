@@ -48,6 +48,9 @@
     <script src="{{ asset('sneat/assets/js/config.js') }}"></script>
     <link href="{{ asset('sneat/assets/css/select2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('sneat/assets/css/toastr.css') }}" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
     
     
     <style>
@@ -138,6 +141,8 @@
     <script src="{{ asset('sneat/assets/js/parsley.min.js') }}"></script>
     <script src="{{ asset('sneat/assets/js/next.js') }}"></script>
     <script src="{{ asset('sneat/assets/js/toastr.js') }}"></script>
+    <script src="{{ asset('js/printThis.js') }}"></script>
+    <script src="{{ asset('js/printRecipt.js') }}"></script>
 
         <script>
             $(document).ready(function() {

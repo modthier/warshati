@@ -1,0 +1,46 @@
+#invoice-POS {
+    background: #FFF;
+    color:#000000;
+    font-weight: bolder;
+  }
+
+   .table_invoice  {
+    color: #000000;
+    font-weight: bolder;
+  }
+
+  #invoice-POS ::selection {
+    background: #f31544;
+    color: #FFF;
+  }
+  #invoice-POS ::moz-selection {
+    background: #f31544;
+    color: #FFF;
+  }
+  
+  #invoice-POS p {
+    font-size: 0.7em;
+    color: #666;
+    line-height: 1.2em;
+  }
+  #invoice-POS #top, #invoice-POS #mid, #invoice-POS #bot {
+    /* Targets all id with 'col-' */
+    border-bottom: 1px solid #EEE;
+  }
+  
+  #invoice-POS #mid {
+    min-height: 80px;
+  }
+  #invoice-POS #bot {
+    min-height: 50px;
+  }
+  
+  #invoice-POS .tabletitle {
+    font-size: 0.5em;
+    background: #eee;
+  }
+  
+  #invoice-POS .item {
+    width: 24mm;
+  }
+  
