@@ -24,7 +24,7 @@ class ServiceRequestController extends Controller
      */
     public function create()
     {
-        //
+        return view('service_request.create');
     }
 
     /**

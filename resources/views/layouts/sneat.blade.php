@@ -155,21 +155,7 @@
                     toastr.warning('{{ Session::get('warning') }}');
                 @endif
 
-                var price = 0.0;
-                $('.item-area .subtotal').each(function(index){
-                  
-                  price += parseFloat($(this).val());
-                  
-                });
                 
-                $('#total').val(price);
-                $('#displayTotal').html(price);
-                console.log(price);
-                if (price > 0) {
-                  $('#order-btn').attr('disabled',false);
-                }else {
-                  $('#order-btn').attr('disabled','disabled');
-                }
             });
     
         </script>

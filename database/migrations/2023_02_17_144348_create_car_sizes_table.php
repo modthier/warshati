@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('car_sizes', function (Blueprint $table) {
             $table->id();
+            $table->string('car');
+            $table->double('worker_ratio');
             $table->timestamps();
         });
     }

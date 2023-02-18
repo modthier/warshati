@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <div>
-                    <h4>قائمة الوحدات</h4>
+                    <h4>قائمة القطيع</h4>
                 </div>
                 <div>
                     <a href="{{ route('unit.create') }}" class="btn btn-primary">

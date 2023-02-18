@@ -14,7 +14,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        $services = Service::orderBy('id','desc')->paginate(20);
+        return view('service.index')->with('services',$services);
     }
 
     /**
@@ -24,7 +25,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        return view('service.create');
     }
 
     /**
@@ -35,7 +36,17 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name' => 'required'
+        ]);
+
+        $serivce = Service::create(['name' => $request->name]);
+        if($serivce){
+            return back()->with('success','تم حفظ الخدمة بنجاح');
+        }else {
+            return back()->with('error','حصل خطاء حاول مرة اخري');
+        }
+
     }
 
     /**
@@ -57,7 +68,7 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        //
+        return view('service.edit')->with('service',$service);
     }
 
     /**
@@ -69,7 +80,16 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-        //
+        $this->validate($request,[
+            'name' => 'required'
+        ]);
+
+        
+        if($service->update(['name' => $request->name])){
+            return back()->with('success','تم تحديث الخدمة بنجاح');
+        }else {
+            return back()->with('error','حصل خطاء حاول مرة اخري');
+        }
     }
 
     /**
@@ -80,6 +100,30 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        //
+        $service->delete();
+        return back()->with('success','تم حذف الخدمة بنجاح');
+    }
+
+
+    public function getService(Request $request)
+    {
+        $response = array();
+
+       
+        if($request->search == ''){
+            $services = Service::orderBy('id','desc')->limit(5)->get();
+        }else {
+            $services = Service::where('name','like',"%".$request->search."%")->get();
+
+        }
+
+        foreach ($services as $service) {
+            $response[] = array(
+               'id' => $service->id ,
+               'text' => $service->name
+            );
+        }
+
+        echo json_encode($response);
     }
 }

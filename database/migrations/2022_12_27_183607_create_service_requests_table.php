@@ -15,10 +15,7 @@ return new class extends Migration
     {
         Schema::create('service_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->references('id')->on('services')->onDelete('cascade');
             $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->foreignId('worker_id')->references('id')->on('workers')->onDelete('cascade');
-            $table->foreignId('car_id')->references('id')->on('cars')->onDelete('cascade');
             $table->double('amount');
             $table->timestamps();
         });

@@ -5,6 +5,9 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ServiceRequestController;
+use App\Http\Controllers\ServiceController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,5 +32,8 @@ Route::resource('purchase',PurchaseController::class);
 Route::get('stock/getStock',[StockController::class,'getStock']);
 Route::resource('stock',StockController::class,['except' => ['edit','create','delete','update']]);
 Route::resource('order',OrderController::class);
+Route::get('service/getService',[ServiceController::class,'getService']);
+Route::resource('service',ServiceController::class);
+Route::get('service_request/create',[ServiceRequestController::class,'create'])->name('service_request.create');
 
 

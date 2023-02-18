@@ -6,12 +6,12 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <div>
-                    <h4>قائمة الوحدات</h4>
+                    <h4>قائمة الخدمات</h4>
                 </div>
                 <div>
-                    <a href="{{ route('unit.create') }}" class="btn btn-primary">
+                    <a href="{{ route('service.create') }}" class="btn btn-primary">
                         <i class="bx bxs-plus-circle"></i>
-                         إضافة وحدة </a>
+                         إضافة خدمة </a>
                 </div>
             </div>
             <div class="card-body p-0">
@@ -19,23 +19,23 @@
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>اسم الوحدة</th>
+                                <th>اسم الخدمة</th>
                                 <th>عمليات</th>
                             </tr>
                             <tbody>
-                                @forelse ($units as $unit)
+                                @forelse ($services as $service)
                                 <tr>
-                                    <td>{{ $unit->unit }}</td>
+                                    <td>{{ $service->name }}</td>
                                     <td>
                                         <div class="d-flex  align-items-center">
-                                           <a href="{{ route('unit.edit',$unit->id) }}" class="btn btn-success m-2">تعديل</a>
-                                           <form id="delete_unit_{{ $unit->id }}"  action="{{ route('unit.destroy',$unit->id) }}"
+                                           <a href="{{ route('service.edit',$service->id) }}" class="btn btn-success m-2">تعديل</a>
+                                           <form id="delete_service_{{ $service->id }}"  action="{{ route('service.destroy',$service->id) }}"
                                             method="post">
                                               @csrf
                                               @method('DELETE')
                                               <button class="btn btn-danger" onclick="event.preventDefault();
                                                   var r = confirm('هل انت متاكد ؟');
-                                                  if (r == true) {document.getElementById('delete_unit_{{ $unit->id }}').submit();}">حذف</button>
+                                                  if (r == true) {document.getElementById('delete_service_{{ $service->id }}').submit();}">حذف</button>
                               
                                             </form>   
                                         </div>

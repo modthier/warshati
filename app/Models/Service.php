@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
+    public function serviceRequest()
+    {
+        return $this->belongsToMany(ServiceRequest::class,'service_request_details','service_id','service_request_id')
+            ->withTimestamps();
+    }
 }
