@@ -7,6 +7,10 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceTypeController;
+use App\Http\Controllers\ClientController;
+
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +38,9 @@ Route::resource('stock',StockController::class,['except' => ['edit','create','de
 Route::resource('order',OrderController::class);
 Route::get('service/getService',[ServiceController::class,'getService']);
 Route::resource('service',ServiceController::class);
-Route::get('service_request/create',[ServiceRequestController::class,'create'])->name('service_request.create');
+Route::resource('serviceType',ServiceTypeController::class);
+Route::get('client/getClients',[ClientController::class,'getClients']);
+Route::resource('client',ClientController::class);
+Route::resource('service_request',ServiceRequestController::class);
 
 

@@ -8,6 +8,12 @@
   margin-top: 12px;
 }
 
+.sharp-edges-button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+
 .app-brand-logo.demo svg {
   width: 22px;
   height: 38px;

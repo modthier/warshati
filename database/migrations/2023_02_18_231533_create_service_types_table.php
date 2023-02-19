@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('service_request_details', function (Blueprint $table) {
+        Schema::create('service_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->references('id')->on('services')->onDelete('cascade');
-            $table->foreignId('service_request_id')->references('id')->on('service_requests')->onDelete('cascade');
-            $table->double('price');
+            $table->string('type');
+            $table->tinyInteger('car_dependent');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_request_details');
+        Schema::dropIfExists('service_types');
     }
 };

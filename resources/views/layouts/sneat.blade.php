@@ -60,13 +60,18 @@
       .select2-container--default .select2-selection--single .select2-selection__arrow b {
           margin-top: 10px;
       }
+
+      
   
       .select2-container--default .select2-selection--single{
           border-radius: 0.5rem;
           font-size: 1rem;
           min-height: calc(1.53em + 1.5rem + 2px);
           padding: 0.75rem 1.25rem;
+         
       }
+
+      
 
       .select2-container--default .select2-selection--multiple {
         border-radius: 0.5rem;

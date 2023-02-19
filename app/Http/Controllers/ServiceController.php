@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
+use App\Models\ServiceType;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -25,7 +26,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        return view('service.create');
+        return view('service.create')->with('serviceTypes',ServiceType::all());
     }
 
     /**
@@ -37,10 +38,11 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => 'required'
+            'name' => 'required',
+            'service_type_id' => 'required|exists:service_types,id'
         ]);
 
-        $serivce = Service::create(['name' => $request->name]);
+        $serivce = Service::create(['name' => $request->name , 'service_type_id' => $request->service_type_id]);
         if($serivce){
             return back()->with('success','تم حفظ الخدمة بنجاح');
         }else {
@@ -68,7 +70,12 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        return view('service.edit')->with('service',$service);
+        return view('service.edit')->with([
+            'service' => $service,
+            'serviceTypes' => ServiceType::all()
+        ]
+            
+        );
     }
 
     /**
@@ -81,23 +88,19 @@ class ServiceController extends Controller
     public function update(Request $request, Service $service)
     {
         $this->validate($request,[
-            'name' => 'required'
+            'name' => 'required',
+            'service_type_id' => 'required|exists:service_types,id'
         ]);
 
         
-        if($service->update(['name' => $request->name])){
+        if($service->update(['name' => $request->name , 'service_type_id' => $request->service_type_id])){
             return back()->with('success','تم تحديث الخدمة بنجاح');
         }else {
             return back()->with('error','حصل خطاء حاول مرة اخري');
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Service  $service
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy(Service $service)
     {
         $service->delete();

@@ -102,6 +102,43 @@
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
+                <div data-i18n="Layouts">الخدمات</div>
+              </a>
+
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="{{ route('service.index') }}" class="menu-link">
+                    <div data-i18n="Without menu">قائمة الخدمات</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{{ route('serviceType.index') }}" class="menu-link">
+                    <div data-i18n="Without navbar">قائمة انواع الخدمات</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <div data-i18n="Layouts">العملاء</div>
+              </a>
+
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="{{ route('client.index') }}" class="menu-link">
+                    <div data-i18n="Without menu">قائمة العملاء</div>
+                  </a>
+                </li>
+                
+              </ul>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-layout"></i>
                 <div data-i18n="Layouts">المشتريات</div>
               </a>
 

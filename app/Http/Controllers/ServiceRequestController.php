@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\ServiceRequest;
+use App\Models\CarSize;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ServiceRequestController extends Controller
 {
@@ -24,7 +28,10 @@ class ServiceRequestController extends Controller
      */
     public function create()
     {
-        return view('service_request.create');
+        
+        return view('service_request.create')->with([
+            'carSizes' => CarSize::all(),            
+        ]);
     }
 
     /**
@@ -35,7 +42,33 @@ class ServiceRequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'services' => 'array|required',
+            'price-*' => 'required',
+            'serviceTotal' => 'required'
+       ]);
+
+       if($validator->fails()){
+            return back()->with('error',$validator->getMessageBag());
+       }
+
+       DB::beginTransaction();
+       
+        try {
+          $serviceRequest = ServiceRequest::create(['clinet_id' => $request->client_id,'amount' => $request->total]);
+          foreach ($request->services as $id) {
+            
+            $details = ['price' =>  $request->input('price-'.$id),
+                         'car_size_id' => $request->input('car_size-'.$id)];
+            $serviceRequest->service()->attach($id,$details);
+          }
+
+           DB::commit();
+           return redirect()->route('order.show',$serviceRequest->id)->with('success','تم حفظ عملية البيع بنجاح');
+        } catch (Exception $th) {
+           DB::rollBack();
+           return back()->with('error','حصل خطاء حاول مرة اخري');
+        }
     }
 
     /**

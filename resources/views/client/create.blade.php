@@ -4,18 +4,30 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <div>
-                    <h4 class="m-0 pb-0">اضافة وحدة</h4>
+                    <h4 class="m-0 pb-0">اضافة عميل</h4>
                 </div>
 
             </div>
             <hr>
-            <form action="{{ route('unit.store') }}" method="POST">
+            <form action="{{ route('client.store') }}" method="POST">
                 @csrf
                 <div class="card-body pt-0">
                     <div class="row">
+
                         <div class="form-group col-md-6 mb-2">
-                            <label for="name" class="form-label"><h5>اسم الوحدة</h5></label>
-                            <input type="text" name="unit" class="form-control form-control-lg" required>
+                            <label for="name" class="form-label"><h5>اسم العميل</h5></label>
+                            <input type="text" name="name" class="form-control form-control-lg" required>
+                        </div>
+
+                        <div class="form-group col-md-6 mb-2">
+                            <label for="phone" class="form-label"><h5> رقم الهاتف </h5></label>
+                            <input type="text" name="phone" class="form-control form-control-lg" required>
+                        </div>
+
+                        <div class="form-group col-md-6 mb-2">
+                            <label for="plate_number" class="form-label"><h5> رقم اللوحة </h5></label>
+                            <input type="text" name="plate_number" class="form-control form-control-lg"
+                             required>
                         </div>
 
                     </div>

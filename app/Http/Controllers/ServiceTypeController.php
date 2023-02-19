@@ -14,70 +14,39 @@ class ServiceTypeController extends Controller
      */
     public function index()
     {
-        //
+        return view('serviceType.index')->with('serviceTypes',serviceType::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('serviceType.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ServiceType  $serviceType
-     * @return \Illuminate\Http\Response
-     */
+   
     public function show(ServiceType $serviceType)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ServiceType  $serviceType
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit(ServiceType $serviceType)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ServiceType  $serviceType
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, ServiceType $serviceType)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ServiceType  $serviceType
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy(ServiceType $serviceType)
     {
         //

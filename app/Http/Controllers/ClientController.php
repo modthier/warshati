@@ -14,7 +14,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        
+        return view('client.index')->with('clients',Client::orderBy('id','desc')->paginate(20));
     }
 
     /**
@@ -24,7 +25,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('client.create');
     }
 
     /**
@@ -35,7 +36,24 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name' => 'required',
+            'phone' => 'required',
+            'plate_number' => 'required',
+        ]);
+
+        $client = Client::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'plate_number' => $request->plate_number
+        ]);
+
+    
+        if($client){
+            return redirect()->route('client.index')->with('success','تم حفظ العميل بنجاح');
+        }else {
+            return back()->with('error','حصل خطاء حاول مرة اخري');
+        }
     }
 
     /**
@@ -46,7 +64,8 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        //
+
+       
     }
 
     /**
@@ -57,7 +76,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view('client.edit')->with('client',$client);
     }
 
     /**
@@ -69,7 +88,23 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
+        $this->validate($request,[
+            'name' => 'required',
+            'phone' => 'required',
+            'plate_number' => 'required',
+        ]);
+
+        $data = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'plate_number' => $request->plate_number
+        ];
+
+        if($client->update($data)){
+            return redirect()->route('client.index')->with('success','تم تحديث العميل بنجاح');
+        }else {
+            return back()->with('error','حصل خطاء حاول مرة اخري');
+        }
     }
 
     /**
@@ -80,6 +115,28 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        $client->delete();
+        return back()->with('success','تم حذف العميل بنجاح');
+    }
+
+    public function getClients(Request $request)
+    {
+        $response = array();
+
+        if($request->search == ''){
+            $clients = Client::orderBy('id','desc')->limit(5)->get();
+        }else {
+            $clients = Client::where('name','like',"%".$request->search."%")->get();
+
+        }
+
+        foreach ($clients as $client) {
+            $response[] = array(
+               'id' => $client->id ,
+               'text' => $client->name
+            );
+        }
+
+        echo json_encode($response);
     }
 }
