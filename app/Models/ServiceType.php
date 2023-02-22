@@ -9,4 +9,9 @@ class ServiceType extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function service()
+    {
+        return $this->hasMany(Service::class);
+    }
 }

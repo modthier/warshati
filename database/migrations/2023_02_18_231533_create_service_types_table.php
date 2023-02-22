@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('service_types', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->tinyInteger('car_dependent');
+            $table->tinyInteger('has_ratio');
             $table->timestamps();
         });
     }

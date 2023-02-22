@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('worker_ratios', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreignId('service_request_id')->references('id')->on('service_requests')->onDelete('cascade');
             $table->foreignId('service_id')->references('id')->on('services')->onDelete('cascade');
             $table->foreignId('worker_id')->references('id')->on('workers')->onDelete('cascade');
-            $table->foreignId('amount')->references('id')->on('services')->onDelete('cascade');
+            $table->double('amount');
             $table->timestamps();
         });
     }
