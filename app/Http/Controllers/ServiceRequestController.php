@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ServiceRequest;
 use App\Models\CarSize;
+use App\Models\PaymentMethod;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,7 @@ class ServiceRequestController extends Controller
     public function index()
     {
         //
+        
     }
 
     /**
@@ -28,9 +30,10 @@ class ServiceRequestController extends Controller
      */
     public function create()
     {
-        
+           
         return view('service_request.create')->with([
-            'carSizes' => CarSize::all(),            
+            'carSizes' => CarSize::all(),  
+            'payments' => PaymentMethod::all()       
         ]);
     }
 

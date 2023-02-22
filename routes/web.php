@@ -1,18 +1,16 @@
 <?php
 
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\PurchaseController;
-use App\Http\Controllers\StockController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ServiceRequestController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\ServiceTypeController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\ClientController;
-
-
-
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ServiceTypeController;
+use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\ServiceRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +40,6 @@ Route::resource('serviceType',ServiceTypeController::class);
 Route::get('client/getClients',[ClientController::class,'getClients']);
 Route::resource('client',ClientController::class);
 Route::resource('service_request',ServiceRequestController::class);
+Route::resource('payment',PaymentMethodController::class,['except' => 'show']);
 
 

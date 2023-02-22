@@ -25,7 +25,7 @@
                             <select name="service_type_id" class="form-control form-control-lg" required>
                                 <option value=""></option>
                                 @foreach ($serviceTypes as $item)
-                                   <option value="{{ $item->id }}" @if($service->service_type_id == $item->id) selected @endif>{{ $item->type }}</option>
+                                   <option value="{{ $item->id }}">{{ $item->type }}</option>
                                 @endforeach
                                 
                             </select>

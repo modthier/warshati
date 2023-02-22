@@ -11,14 +11,14 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-6">
                     <label for="service_id"><h5> اسم الخدمة</h5></label>
                     <select name="service_id" id="service_id" class="form-control">
                         <option value=""></option>
                     </select>
                 </div>
 
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-6">
                     <label for="client_id"><h5> اسم العميل</h5></label>
                     <div class="d-flex justify-content-center">
                        
@@ -29,13 +29,23 @@
                         
                     </div>
                     
-                </div>
-                <div class="form-group col-lg-4">
+            </div>
+                <div class="form-group col-lg-6 mt-3">
                     <label for="car_id"><h5>  حجم المركبة </h5></label>
                     <select name="car_id" id="car_id" class="form-control form-control-lg" required>
                         <option value=""></option>
                         @foreach ($carSizes as $item)
                         <option value="{{ $item->id }}">{{ $item->car }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group col-lg-6 mt-3">
+                    <label for="payment_method_id"><h5>  طرق الدفع </h5></label>
+                    <select name="payment_method_id"  class="form-control form-control-lg" required>
+                        <option value=""></option>
+                        @foreach ($payments as $item)
+                        <option value="{{ $item->id }}">{{ $item->method }}</option>
                         @endforeach
                     </select>
                 </div>

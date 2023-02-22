@@ -122,7 +122,7 @@ class ClientController extends Controller
     public function getClients(Request $request)
     {
         $response = array();
-
+        
         if($request->search == ''){
             $clients = Client::orderBy('id','desc')->limit(5)->get();
         }else {
