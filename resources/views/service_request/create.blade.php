@@ -50,6 +50,16 @@
                     </select>
                 </div>
 
+                <div class="form-group col-lg-6 mt-3">
+                    <label for="worker_id"><h5> حدد العامل </h5></label>
+                    <select name="worker_id"  class="form-control form-control-lg" required>
+                        <option value=""></option>
+                        @foreach ($workers as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 
                 <div class="mt-3">
                     <button type="button" class="btn btn-success btn-lg" id="addItem">اضافة</button>
@@ -75,7 +85,7 @@
                             <h4>السعر الكلي : <span id="serviceDisplayTotal"></span></h4>
                         </div>
                         <div class="px-1">
-                            <input type="submit" value="حفظ" id="order-btn" class="btn btn-success">
+                            <input type="submit" value="حفظ" id="service-btn" class="btn btn-success">
                         </div>
                     </div>
                 
@@ -150,7 +160,7 @@
   var html = `
       <tr>
           <td>${name}</td>
-          <td><input type="number" class='price form-control'  id="price-${service_id}"
+          <td><input type="number" class='price form-control' name="services[${service_id}][price]"  id="price-${service_id}"
               data-id="${service_id}" 
               class="form-control price">
           </td>

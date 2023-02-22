@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ServiceRequest;
 use App\Models\CarSize;
+use App\Models\Worker;
 use App\Models\PaymentMethod;
 use Exception;
 use Illuminate\Http\Request;
@@ -20,7 +21,6 @@ class ServiceRequestController extends Controller
     public function index()
     {
         //
-        
     }
 
     /**
@@ -33,7 +33,8 @@ class ServiceRequestController extends Controller
            
         return view('service_request.create')->with([
             'carSizes' => CarSize::all(),  
-            'payments' => PaymentMethod::all()       
+            'payments' => PaymentMethod::all(),
+            'workers' => Worker::all()     
         ]);
     }
 
@@ -45,6 +46,7 @@ class ServiceRequestController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $validator = Validator::make($request->all(),[
             'services' => 'array|required',
             'price-*' => 'required',

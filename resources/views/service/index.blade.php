@@ -9,8 +9,9 @@
                     <h4>قائمة الخدمات</h4>
                 </div>
                 <div>
+                    <a href="{{ route('service_request.create') }}" class="btn btn-primary">  <i class="bx bxs-plus-circle mx-2"></i> طلب خدمة</a>
                     <a href="{{ route('service.create') }}" class="btn btn-primary">
-                        <i class="bx bxs-plus-circle"></i>
+                        <i class="bx bxs-plus-circle mx-2"></i>
                          إضافة خدمة </a>
                 </div>
             </div>

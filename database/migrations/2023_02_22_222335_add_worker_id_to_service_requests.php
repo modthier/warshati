@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('worker_ratios', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->foreignId('service_id')->references('id')->on('services')->onDelete('cascade');
+        Schema::table('service_requests', function (Blueprint $table) {
             $table->foreignId('worker_id')->references('id')->on('workers')->onDelete('cascade');
-            $table->foreignId('amount')->references('id')->on('services')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('worker_ratios');
+        Schema::table('service_requests', function (Blueprint $table) {
+            //
+        });
     }
 };
