@@ -22,7 +22,8 @@ class ServiceRequestController extends Controller
      */
     public function index()
     {
-        //
+        $service_requests = ServiceRequest::orderBy('id','desc')->paginate(20);
+        return view('service_request.index')->with('service_requests',$service_requests);
     }
 
     /**
@@ -62,9 +63,9 @@ class ServiceRequestController extends Controller
             return back()->with('error',$validator->errors());
        }
 
-    //    DB::beginTransaction();
+       DB::beginTransaction();
        
-    //     try {
+        try {
           $serviceRequest = ServiceRequest::create([
             'client_id' => $request->client_id,
             'amount' => $request->total,
@@ -89,12 +90,12 @@ class ServiceRequestController extends Controller
             $serviceRequest->service()->attach($id,$details);
           }
 
-        //    DB::commit();
-        //    return redirect()->route('service_request.show',$serviceRequest->id)->with('success','تم حفظ عملية البيع بنجاح');
-        // } catch (Exception $e) {
-        //    DB::rollBack();
-        //    return back()->with('error','حصل خطاء حاول مرة اخري');
-        // }
+           DB::commit();
+           return redirect()->route('service_request.show',$serviceRequest->id)->with('success','تم حفظ عملية البيع بنجاح');
+        } catch (Exception $e) {
+           DB::rollBack();
+           return back()->with('error','حصل خطاء حاول مرة اخري');
+        }
     }
 
     /**
@@ -105,7 +106,7 @@ class ServiceRequestController extends Controller
      */
     public function show(ServiceRequest $serviceRequest)
     {
-        //
+        return view('service_request.show')->with('service',$serviceRequest);
     }
 
     /**

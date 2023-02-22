@@ -14,6 +14,7 @@ class Service extends Model
     public function serviceRequest()
     {
         return $this->belongsToMany(ServiceRequest::class,'service_request_details','service_id','service_request_id')
+            ->withPivot('price')
             ->withTimestamps();
     }
 
