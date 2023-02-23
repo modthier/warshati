@@ -1,113 +1,36 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Language" content="en">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Dokani</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
-    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
-    <meta name="msapplication-tap-highlight" content="no">
-    <link href="{{ asset('assets/main.css') }}" rel="stylesheet">
-    
-    <link href="{{ asset('assets/css/jquery-ui.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/bootstrap-tokenfield.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.min.css') }}">
-    <style type="text/css">
-       
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        .box {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-        .box div {
-          width: 100px;
-          height: 100px;
-        }
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        .info {
-            font-size: 1.5em;
-        }
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="font-sans antialiased">
+        <div class="min-h-screen bg-gray-100">
+            @include('layouts.navigation')
 
-        .filters {
-            display: none;
-        }
-
-        .modal .modal-body {    
-        overflow-y: auto;
-        max-height: 400px;
-    }
-    </style>
-</head>
-<body>
-<div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
-        
-        @include('layouts.app-header')
-
-                  
-        <div class="app-main">
-                @include('layouts.app-sidebar')
-                <div class="app-main__outer">
-
-                    <div class="app-main__inner">   
-                        
-                       @yield('content')
-                       
+            <!-- Page Heading -->
+            @if (isset($header))
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
                     </div>
+                </header>
+            @endif
 
-
-                   @include('layouts.app-wrapper-footer')
-                  
-            </div>
-                
-
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
         </div>
-    </div>
-
-    <script type="text/javascript" src="{{ asset('assets/scripts/main.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/scripts/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/scripts/jquery-ui.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/scripts/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/scripts/bootstrap-tokenfield.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/scripts/select2.full.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/scripts/select2Scripts.js') }}"></script>
-    <script type="text/javascript">
-            $(document).ready(function(){
- 
-             $('#selection_value').tokenfield();
-            });
-    </script>
-
-    <script type="text/javascript" src="{{ asset('assets/scripts/printThis.js') }}"></script>
-    <script type="text/javascript">
-        $('body').on('click','.print',function (e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            
-            $('#barcode-'+id).printThis({
-                importCSS: true
-            });
-        });
-
-        $('#filter').click(function () {
-            var btn = $(this).text();
-            $('.filters').slideToggle(100);
-            
-
-            if ($.trim($(this).text()) === 'Show Filters') {
-               $(this).text('Hide Filters');
-            } else {
-                $(this).text('Show Filters');        
-            }
-
-        });       
-    </script>
-
-
- 
-    
-</body>
+    </body>
 </html>

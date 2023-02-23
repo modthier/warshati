@@ -9,4 +9,15 @@ class WorkerRatio extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function serviceRequest()
+    {
+        return $this->belongsTo(ServiceRequest::class);
+    }
+
+
+    public function worker()
+    {
+        return $this->belongsTo(Worker::class);
+    }
 }

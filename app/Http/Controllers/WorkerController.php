@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Worker;
 use Illuminate\Http\Request;
+use App\Http\Requests\WorkerFormRequest;
 
 class WorkerController extends Controller
 {
@@ -14,7 +15,7 @@ class WorkerController extends Controller
      */
     public function index()
     {
-        //
+        return view('worker.index')->with('workers',Worker::orderBy('id','desc')->paginate(20));
     }
 
     /**
@@ -24,7 +25,7 @@ class WorkerController extends Controller
      */
     public function create()
     {
-        //
+        return view('worker.create');
     }
 
     /**
@@ -33,9 +34,14 @@ class WorkerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(WorkerFormRequest $request)
     {
-        //
+        $worker = Worker::create($request->validated());
+        if($worker){
+            return redirect()->route('worker.index')->with('success','تم حفظ العامل بنجاح');
+        }else {
+            return back()->with('error','حصل خطاء حاول مرة اخري');
+        }
     }
 
     /**
@@ -46,7 +52,7 @@ class WorkerController extends Controller
      */
     public function show(Worker $worker)
     {
-        //
+        return view('worker.show')->with('worker',$worker);
     }
 
     /**
@@ -57,7 +63,7 @@ class WorkerController extends Controller
      */
     public function edit(Worker $worker)
     {
-        //
+        return view('worker.edit')->with('worker',$worker);
     }
 
     /**
@@ -67,9 +73,14 @@ class WorkerController extends Controller
      * @param  \App\Models\Worker  $worker
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Worker $worker)
+    public function update(WorkerFormRequest $request, Worker $worker)
     {
-        //
+        $worker = $worker->update($request->validated());
+        if($worker){
+            return redirect()->route('worker.index')->with('success','تم تحديث العامل بنجاح');
+        }else {
+            return back()->with('error','حصل خطاء حاول مرة اخري');
+        }
     }
 
     /**
@@ -80,6 +91,7 @@ class WorkerController extends Controller
      */
     public function destroy(Worker $worker)
     {
-        //
+        $worker->delete();
+        return back()->with('success','تم حذف العامل بنجاح');
     }
 }

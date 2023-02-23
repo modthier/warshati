@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Order;
 use App\Models\Worker;
 use App\Models\CarSize;
 use App\Models\Service;
@@ -91,7 +92,7 @@ class ServiceRequestController extends Controller
           }
 
            DB::commit();
-           return redirect()->route('service_request.show',$serviceRequest->id)->with('success','تم حفظ عملية البيع بنجاح');
+           return redirect()->route('service_request.show',$serviceRequest->id)->with('success','تم حفظ الخدمة بنجاح');
         } catch (Exception $e) {
            DB::rollBack();
            return back()->with('error','حصل خطاء حاول مرة اخري');
@@ -129,7 +130,61 @@ class ServiceRequestController extends Controller
      */
     public function update(Request $request, ServiceRequest $serviceRequest)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'services' => 'array|required',
+            'total' => 'required',
+            'payment_method_id' => 'required',
+            'worker_id' => 'required',
+            'client_id' => 'required',
+            'car_id' => 'required'
+       ]);
+
+       if($validator->fails()){
+            return back()->with('error',$validator->errors());
+       }
+       
+        if($serviceRequest->order){
+            $order = Order::find($serviceRequest->order->id);
+            $order->stock()->detach();
+            $order->delete();
+        }
+        $serviceRequest->workerRatio->delete();
+        $serviceRequest->delete();
+
+        DB::beginTransaction();
+       
+        try {
+          $serviceRequest = ServiceRequest::create([
+            'client_id' => $request->client_id,
+            'amount' => $request->total,
+            'payment_method_id' => $request->payment_method_id,
+            'car_size_id' => $request->car_id,
+            'worker_id' => $request->worker_id,
+
+        ]);
+          foreach ($request->services as $id => $price) {
+            $service = Service::findOrFail($id);
+            if($service->service_type->has_ratio){
+                $car = CarSize::findOrFail($request->car_id);
+                $ratio = $price['price'] * ($car->worker_ratio / 100);
+                WorkerRatio::create([
+                    'service_request_id' => $serviceRequest->id,
+                    'service_id' => $id,
+                    'amount' => $ratio,
+                    'worker_id' => $request->worker_id
+                ]);
+            }
+            $details = ['price' =>  $price['price']];
+            $serviceRequest->service()->attach($id,$details);
+          }
+
+           DB::commit();
+           return redirect()->route('service_request.show',$serviceRequest->id)->with('success','تم حفظ الخدمة بنجاح');
+        } catch (Exception $e) {
+           DB::rollBack();
+           return back()->with('error','حصل خطاء حاول مرة اخري');
+        }
+        
     }
 
     /**
@@ -140,6 +195,23 @@ class ServiceRequestController extends Controller
      */
     public function destroy(ServiceRequest $serviceRequest)
     {
-        //
+        if($serviceRequest->order){
+            $order = Order::find($serviceRequest->order->id);
+            $order->stock()->detach();
+            $order->delete();
+        }
+        $serviceRequest->workerRatio->delete();
+        $serviceRequest->delete();
+        return back()->with('success','تم حذف الخدمة بنجاح');
     }
+
+
+    public function addProduct(ServiceRequest $serviceRequest)
+    {
+        return view('service_request.addProduct')->with('serviceRequest',$serviceRequest);
+    }
+
+
+   
+    
 }

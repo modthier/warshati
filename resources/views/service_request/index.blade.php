@@ -34,8 +34,10 @@
                                     <td>{{ number_format($service->amount,2) }}</td>
                                     <td>
                                         <div class="d-flex  align-items-center">
+                                        
                                            <a href="{{ route('service_request.show',$service->id) }}" class="btn btn-primary m-2">تفاصيل</a>
                                            <a href="{{ route('service_request.edit',$service->id) }}" class="btn btn-success m-2">تعديل</a>
+                                           <a href="{{ route('serviceRequest.addProduct',$service->id) }}" class="btn btn-warning m-2">اضافة منتجات</a>
                                            <form id="delete_service_request_{{ $service->id }}"  action="{{ route('service_request.destroy',$service->id) }}"
                                             method="post">
                                               @csrf

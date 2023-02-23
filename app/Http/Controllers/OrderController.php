@@ -60,26 +60,72 @@ class OrderController extends Controller
        DB::beginTransaction();
        
         try {
-          $order = Order::create(['total' => $request->total]);
-          foreach ($request->stocks as $id => $quantity) {
-            
-            $details = ['quantity' => $quantity['quantity'] ,'selling_price' => $request->input('selling_price-'.$id),
-                         'purchase_price' => $request->input('purchase_price-'.$id)];
-            $order->stock()->attach($id,$details);
-            $stock = Stock::findOrFail($id);
+          if($request->has('service_request_id')){
+            $service_request = Order::where('service_request_id',$request->service_request_id)->first();
+            if($service_request) {
+              $total = $request->total + $service_request->total;
+              $service_request->update(['total' => $total]);
 
-            $new_stock = $stock->quantity - $quantity['quantity'];
-           
-           $stock->update([
-             'quantity' => $new_stock
-           ]);
+              foreach ($request->stocks as $id => $quantity) {
+            
+                $details = ['quantity' => $quantity['quantity'] ,'selling_price' => $request->input('selling_price-'.$id),
+                             'purchase_price' => $request->input('purchase_price-'.$id)];
+                $service_request->stock()->attach($id,$details);
+                $stock = Stock::findOrFail($id);
+    
+                $new_stock = $stock->quantity - $quantity['quantity'];
+               
+               $stock->update([
+                 'quantity' => $new_stock
+               ]);
+              }
+            }else {
+              $order = Order::create(['total' => $request->total , 'service_request_id' => $request->service_request_id]);
+              foreach ($request->stocks as $id => $quantity) {
+            
+                $details = ['quantity' => $quantity['quantity'] ,'selling_price' => $request->input('selling_price-'.$id),
+                             'purchase_price' => $request->input('purchase_price-'.$id)];
+                $order->stock()->attach($id,$details);
+                $stock = Stock::findOrFail($id);
+    
+                $new_stock = $stock->quantity - $quantity['quantity'];
+               
+               $stock->update([
+                 'quantity' => $new_stock
+               ]);
+              }
+            }
+            
+          } // service request id is null
+          else  {
+            $order = Order::create(['total' => $request->total]);
+            foreach ($request->stocks as $id => $quantity) {
+            
+              $details = ['quantity' => $quantity['quantity'] ,'selling_price' => $request->input('selling_price-'.$id),
+                           'purchase_price' => $request->input('purchase_price-'.$id)];
+              $order->stock()->attach($id,$details);
+              $stock = Stock::findOrFail($id);
+  
+              $new_stock = $stock->quantity - $quantity['quantity'];
+             
+             $stock->update([
+               'quantity' => $new_stock
+             ]);
+            }
           }
+          
+          
 
            DB::commit();
-           return redirect()->route('order.show',$order->id)->with('success','تم حفظ عملية البيع بنجاح');
-        } catch (Throwable $th) {
+           if($request->has('service_request_id') && !empty($request->has('service_request_id'))){
+            return redirect()->route('service_request.show',$request->service_request_id)->with('success','تم اضافة منتجات للخدمة بنجاح');
+           }else {
+             return redirect()->route('order.show',$order->id)->with('success','تم حفظ عملية البيع بنجاح');
+           }
+           
+        } catch (Exception $th) {
            DB::rollBack();
-           return back()->with('error','حصل خطاء حاول مرة اخري');
+           return back()->withErrors($th->getErrors());
         }
 
 

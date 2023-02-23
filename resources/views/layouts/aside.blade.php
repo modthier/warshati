@@ -112,6 +112,11 @@
                   </a>
                 </li>
                 <li class="menu-item">
+                  <a href="{{ route('service_request.index') }}" class="menu-link">
+                    <div data-i18n="Without menu">قائمة طلبات الخدمات</div>
+                  </a>
+                </li>
+                <li class="menu-item">
                   <a href="{{ route('serviceType.index') }}" class="menu-link">
                     <div data-i18n="Without navbar">قائمة انواع الخدمات</div>
                   </a>
@@ -185,6 +190,34 @@
                     <div data-i18n="Without menu">قائمة المبيعات</div>
                   </a>
                 </li>
+              </ul>
+            </li>
+
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <div data-i18n="Layouts">الادارة</div>
+              </a>
+
+              <ul class="menu-sub">
+              <li class="menu-item">
+                  <a href="{{ route('users.index') }}" class="menu-link">
+                    <div data-i18n="Without menu"> المستخدمين </div>
+                  </a>
+                </li>
+
+                <li class="menu-item">
+                  <a href="{{ route('worker.index') }}" class="menu-link">
+                    <div data-i18n="Without menu">قائمة العمال</div>
+                  </a>
+                </li>
+
+                <li class="menu-item">
+                  <a href="{{ route('setting.index') }}" class="menu-link">
+                    <div data-i18n="Without menu">معلومات المتجر</div>
+                  </a>
+                </li>
+                
               </ul>
             </li>
            

@@ -53,9 +53,9 @@ id="layout-navbar">
           <div class="dropdown-divider"></div>
         </li>
         <li>
-          <form method="POST" action="">
+        <form method="POST" action="{{ route('logout') }}">
             @csrf
-          <a href="" onclick="event.preventDefault();
+          <a href="{{ route('logout') }}" onclick="event.preventDefault();
           this.closest('form').submit();" class="dropdown-item" href="auth-login-basic.html">
             <i class="bx bx-power-off me-2"></i>
             <span class="align-middle">تسجيل الخروج</span>

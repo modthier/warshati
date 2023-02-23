@@ -35,5 +35,20 @@ class ServiceRequest extends Model
         return $this->belongsTo(CarSize::class,'car_size_id');
     }
 
+
+    public function order()
+    {
+        return $this->hasOne(Order::class,'service_request_id');
+    }
+
+
+    public function workerRatio()
+    {
+        return $this->hasMany(WorkerRatio::class,'service_request_id');
+    }
+
+
+
+
     
 }

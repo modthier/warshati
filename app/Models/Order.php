@@ -16,4 +16,9 @@ protected $guarded = [];
             ->withPivot(['quantity','selling_price','purchase_price'])
             ->withTimestamps();
     }
+
+    public function service_request()
+    {
+        return $this->belongsTo(ServiceRequest::class);
+    }
 }
