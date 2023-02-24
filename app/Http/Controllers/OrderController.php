@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Throwable;
+use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use App\Models\PaymentMethod;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Throwable;
 
 class OrderController extends Controller
 {
@@ -18,8 +20,21 @@ class OrderController extends Controller
      */
     public function index()
     {
+        $order = new Order();
+        $total = $order->whereBetween('created_at',[Carbon::now()->startOfYear(),Carbon::now()->endOfYear()])->sum('total');
+        $today = $order->whereDate('created_at',today())->sum('total');
+        $week = $order->whereBetween('created_at',[Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->sum('total');
+        $month = $order->whereBetween('created_at',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->sum('total');
+
+        $orders = Order::withCount('stock')->orderBy('id','desc')->paginate(20);
+
         return view('order.index')->with([
-            'orders' => Order::withCount('stock')->orderBy('id','desc')->paginate(20)
+            'orders' => $orders ,
+            'total' => $total ,
+            'today' => $today,
+            'week' => $week,
+            'month' => $month
+
         ]);
     }
 
@@ -30,7 +45,9 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('order.create');
+        return view('order.create')->with([
+          'payments' => PaymentMethod::all(),
+        ]);
     }
 
     /**
@@ -98,7 +115,8 @@ class OrderController extends Controller
             
           } // service request id is null
           else  {
-            $order = Order::create(['total' => $request->total]);
+           
+            $order = Order::create(['total' => $request->total,'payment_method_id' => $request->payment_method_id]);
             foreach ($request->stocks as $id => $quantity) {
             
               $details = ['quantity' => $quantity['quantity'] ,'selling_price' => $request->input('selling_price-'.$id),
@@ -179,9 +197,10 @@ class OrderController extends Controller
             $stock->update([
             'quantity' => $new_stock
             ]);
-            $order->stock()->detach();
-            $order->delete();
+          
        }
+       $order->stock()->detach();
+       $order->delete();
 
        $errors = Stock::checkStock($request->stocks);
        if($errors){
@@ -223,6 +242,14 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        foreach ($order->stock as $stock) {
+
+          $new_stock = $stock->quantity + $stock->pivot->quantity;
+          $stock->update([
+             'quantity' => $new_stock
+          ]);
+
+        }
         $order->stock()->detach();
         $order->delete();
         return back()->with('success','تم حذف الطلب بنجاح');

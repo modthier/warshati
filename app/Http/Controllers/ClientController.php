@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
@@ -126,17 +127,56 @@ class ClientController extends Controller
         if($request->search == ''){
             $clients = Client::orderBy('id','desc')->limit(5)->get();
         }else {
-            $clients = Client::where('name','like',"%".$request->search."%")->get();
+            $clients = Client::where('name','like',"%".$request->search."%")
+                      ->orWhere('phone','like',"%".$request->search."%")
+                      ->orWhere('plate_number','like',"%".$request->search."%")
+                      ->get();
 
         }
 
         foreach ($clients as $client) {
             $response[] = array(
                'id' => $client->id ,
-               'text' => $client->name
+               'text' => $client->name." "."(".$client->phone.")"." "."(".$client->plate_number.")"
             );
         }
 
         echo json_encode($response);
+    }
+
+    public function storeAjax(Request $request)
+    {
+        
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'phone' => 'required',
+            'plate_number' => 'required',
+        ]);
+
+       if($validator->fails()){
+        
+         echo "<span class='bg-danger'>".$validator->errors()."</span>";
+       }
+
+        $check = Client::where('plate_number',$request->plate_number)->exists();
+        if(!$check){
+            
+        
+            $client = Client::create([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'plate_number' => $request->plate_number
+            ]);
+
+
+            if($client) {
+                echo "<span class='bg-success'>تم حفظ العميل بنجاح</span>";
+            }else {
+                
+                echo "<span class='bg-danger'>  حصل خطاء حاول مرة اخري </span>";
+            }
+        }else {
+               echo "<span class='bg-danger'> العميل موجود مسبقا </span>";
+        }
     }
 }

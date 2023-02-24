@@ -61,6 +61,10 @@
           margin-top: 10px;
       }
 
+      .card-header {
+         padding-top:7px;
+         padding-bottom:0px;
+      }
       
   
       .select2-container--default .select2-selection--single{

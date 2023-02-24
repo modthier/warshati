@@ -20,4 +20,9 @@ class WorkerRatio extends Model
     {
         return $this->belongsTo(Worker::class);
     }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

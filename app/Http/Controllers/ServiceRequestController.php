@@ -197,10 +197,18 @@ class ServiceRequestController extends Controller
     {
         if($serviceRequest->order){
             $order = Order::find($serviceRequest->order->id);
-            $order->stock()->detach();
-            $order->delete();
+            foreach ($order->stock as $stock) {
+
+                $new_stock = $stock->quantity + $stock->pivot->quantity;
+                $stock->update([
+                   'quantity' => $new_stock
+                ]);
+      
+            }
+              $order->stock()->detach();
+              $order->delete();
         }
-        $serviceRequest->workerRatio->delete();
+        $serviceRequest->workerRatio()->delete();
         $serviceRequest->delete();
         return back()->with('success','تم حذف الخدمة بنجاح');
     }

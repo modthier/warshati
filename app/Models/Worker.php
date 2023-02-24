@@ -10,4 +10,11 @@ class Worker extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = [];
+
+    public function ratio()
+    {
+        return $this->hasMany(WorkerRatio::class,'worker_id');
+    }
+
+
 }

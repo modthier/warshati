@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Worker;
+use App\Models\WorkerRatio;
 use Illuminate\Http\Request;
 use App\Http\Requests\WorkerFormRequest;
 
@@ -52,7 +54,17 @@ class WorkerController extends Controller
      */
     public function show(Worker $worker)
     {
-        return view('worker.show')->with('worker',$worker);
+        
+        $today = WorkerRatio::where('worker_id',$worker->id)->whereDate('created_at',today())->sum('amount');
+        $week = WorkerRatio::where('worker_id',$worker->id)->whereBetween('created_at',[Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->sum('amount');
+        $month = WorkerRatio::where('worker_id',$worker->id)->whereBetween('created_at',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->sum('amount');
+        
+        return view('worker.show')->with([
+            'worker' => $worker ,
+            'today' => $today,
+            'week' => $week ,
+            'month' => $month
+        ]);
     }
 
     /**

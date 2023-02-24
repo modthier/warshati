@@ -44,6 +44,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('service',ServiceController::class);
     Route::resource('serviceType',ServiceTypeController::class);
     Route::get('client/getClients',[ClientController::class,'getClients']);
+
+    //client ajax request
+    Route::post('client/storeAjax',[ClientController::class,'storeAjax'])->name('client.storeAjax');
+    //
     Route::resource('client',ClientController::class);
     Route::get('addProduct/{serviceRequest}',[ServiceRequestController::class,'addProduct'])->name('serviceRequest.addProduct');
     Route::resource('service_request',ServiceRequestController::class);

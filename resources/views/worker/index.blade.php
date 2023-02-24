@@ -32,6 +32,7 @@
                                     <td>{{ $worker->address }}</td>
                                     <td>
                                         <div class="d-flex  align-items-center">
+                                           <a href="{{ route('worker.show',$worker->id) }}" class="btn btn-primary m-2">عرض</a>
                                            <a href="{{ route('worker.edit',$worker->id) }}" class="btn btn-success m-2">تعديل</a>
                                            <form id="delete_worker_{{ $worker->id }}"  action="{{ route('worker.destroy',$worker->id) }}"
                                             method="post">

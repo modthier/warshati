@@ -99,11 +99,68 @@
 </form>
 
 
+<div class="mt-3">
+        <!-- Modal -->
+        <div class="modal fade" id="modalCenter" tabindex="-1" style="display: none;" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+              <div id="alert"></div>
+              <form action="{{ route('client.store') }}" id="myForm" method="POST">
+                @csrf
+                <div class="card-body pt-0">
+                    <div class="row">
+
+                        <div class="form-group col-md-12 mb-2">
+                            <label for="name" class="form-label"><h5>اسم العميل</h5></label>
+                            <input type="text" name="name" class="form-control form-control-lg" required>
+                        </div>
+
+                        <div class="form-group col-md-12 mb-2">
+                            <label for="phone" class="form-label"><h5> رقم الهاتف </h5></label>
+                            <input type="text" name="phone" class="form-control form-control-lg" required>
+                        </div>
+
+                        <div class="form-group col-md-12 mb-2">
+                            <label for="plate_number" class="form-label"><h5> رقم اللوحة </h5></label>
+                            <input type="text" name="plate_number" class="form-control form-control-lg"
+                             required>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="next btn btn-success pull-right btn-lg">حفظ</button>
+
+                </div>
+        </div>
+        </form>
+               
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                  اغلاق
+                </button>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
 @endsection
 
 @push('js')
 <script>
     calc();
+    $('#add_client').on('click',function(){
+        $('#modalCenter').modal('show');
+    });
+
 
     $('#service_id').select2({
     width: "100%",
@@ -125,6 +182,27 @@
         cache: false
       }
   });
+
+  $("#myForm").on("submit", function(event){
+    event.preventDefault();
+        $.ajaxSetup({
+        headers:{
+            'X-CSRF-TOKEN':$('meta[name="csrf_token"]').attr('content')
+        }
+        });
+            var formValues= $(this).serialize();
+    
+            
+            $.ajax({
+                url : '{{ route('client.storeAjax') }}',
+                type : 'post',
+                data : formValues,
+                success:function(result){
+                    $('#alert').html(result);
+                    $('#myForm').trigger("reset");
+                }
+            });
+    });
 
   $('#client_id').select2({
     width: "100%",

@@ -138,9 +138,9 @@
                       <div class="p-2" style="background-color: #eee; text-align: right;">
                              <h5 style=" color:#000000; font-weight: bolder;">المجموع   : {{ number_format($service->amount,2) }}</h5>
                         </div>
-
+                        @if($service->order)
                         <div>
-                           @if($service->order)
+                         
                             <table class="table table-sm table_invoice">
                                
                                     <thead>
@@ -164,13 +164,13 @@
                                
                 
                             </table>
-                            @endif
+                            
                         </div><!--End Table-->
                 
                         <div class="p-2" style="background-color: #eee; text-align: right;">
                              <h5 style=" color:#000000; font-weight: bolder;">المجموع   : {{ number_format($service->order->total,2) }}</h5>
                         </div>
-                
+                       
                         <div>
                             <table class="table table-borderless table_invoice table-sm" style="text-align: right;" dir="rtl">
                                 <tr>
@@ -186,6 +186,7 @@
                                     <td></td>
                                 </tr>
                             </table>
+                            @endif
                             <div>
                                 <h5 class="text-center mt-3" style="color:#000000; font-weight: bolder;">المجموع الكلي : @if($service->order) {{ number_format($service->amount + $service->order->total,2) }} @else {{ number_format($service->amount,2) }} @endif</h5>
                             </div>
