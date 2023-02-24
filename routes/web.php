@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\CarSizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
@@ -61,6 +62,8 @@ Route::middleware('auth')->group(function () {
     
     Route::get('showSetting',[SettingController::class,'showSetting'])->name('showSetting');
     Route::resource('setting',SettingController::class,['except'=>['show']]);
+
+    Route::resource('cars',CarSizeController::class)->only(['index','update','edit']);
 });
 
 require __DIR__.'/auth.php';

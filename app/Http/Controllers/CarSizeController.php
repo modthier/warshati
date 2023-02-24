@@ -14,39 +14,7 @@ class CarSizeController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CarSize  $carSize
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CarSize $carSize)
-    {
-        //
+        return view('car.index')->with('cars',CarSize::all());
     }
 
     /**
@@ -57,7 +25,7 @@ class CarSizeController extends Controller
      */
     public function edit(CarSize $carSize)
     {
-        //
+        return view('car.edit')->with('car',$carSize);
     }
 
     /**
@@ -72,14 +40,5 @@ class CarSizeController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\CarSize  $carSize
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CarSize $carSize)
-    {
-        //
-    }
+   
 }
