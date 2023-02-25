@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
@@ -8,10 +9,12 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\CarSizeController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ServiceRequestController;
@@ -30,9 +33,7 @@ use App\Http\Controllers\ServiceRequestController;
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Route::get('/',[HomeController::class,'index'])->name('home');
     
     Route::get('product/getProduct',[ProductController::class,'getProducts']);
     Route::resource('product',ProductController::class);
@@ -64,6 +65,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('setting',SettingController::class,['except'=>['show']]);
 
     Route::resource('cars',CarSizeController::class)->only(['index','update','edit']);
+    Route::resource('expense',ExpenseController::class,['except' => 'show']);
+    Route::resource('expenseTypes',ExpenseTypeController::class,['except' => 'show']);
 });
 
 require __DIR__.'/auth.php';

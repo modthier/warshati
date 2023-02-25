@@ -206,6 +206,18 @@
                 </li>
 
                 <li class="menu-item">
+                  <a href="{{ route('expense.index') }}" class="menu-link">
+                    <div data-i18n="Without menu"> المنصرفات </div>
+                  </a>
+                </li>
+
+                <li class="menu-item">
+                  <a href="{{ route('expenseTypes.index') }}" class="menu-link">
+                    <div data-i18n="Without menu"> انواع المنصرفات </div>
+                  </a>
+                </li>
+
+                <li class="menu-item">
                   <a href="{{ route('worker.index') }}" class="menu-link">
                     <div data-i18n="Without menu">قائمة العمال</div>
                   </a>
@@ -213,7 +225,7 @@
 
                 <li class="menu-item">
                   <a href="{{ route('setting.index') }}" class="menu-link">
-                    <div data-i18n="Without menu">معلومات المتجر</div>
+                    <div data-i18n="Without menu">معلومات الورشة</div>
                   </a>
                 </li>
                 

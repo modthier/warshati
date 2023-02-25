@@ -23,8 +23,9 @@ class CarSizeController extends Controller
      * @param  \App\Models\CarSize  $carSize
      * @return \Illuminate\Http\Response
      */
-    public function edit(CarSize $carSize)
+    public function edit($id)
     {
+        $carSize = CarSize::find($id);
         return view('car.edit')->with('car',$carSize);
     }
 
@@ -35,9 +36,21 @@ class CarSizeController extends Controller
      * @param  \App\Models\CarSize  $carSize
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CarSize $carSize)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'car' => 'required',
+            'worker_ratio' => 'required'
+        ]);
+        
+        $carSize = CarSize::find($id);
+
+        if($carSize->update(['car' => $request->car ,'worker_ratio' => $request->worker_ratio])){
+            return redirect()->route('cars.index')->with('success','تم التحديث بنجاح');
+        }else {
+            return back()->with('error','حصل خطاء حاول مرة اخري');
+        }
+
     }
 
    

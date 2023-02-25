@@ -97,7 +97,7 @@ class OrderController extends Controller
                ]);
               }
             }else {
-              $order = Order::create(['total' => $request->total , 'service_request_id' => $request->service_request_id]);
+              $order = Order::create(['total' => $request->total , 'service_request_id' => $request->service_request_id,'user_id' => auth()->user()->id]);
               foreach ($request->stocks as $id => $quantity) {
             
                 $details = ['quantity' => $quantity['quantity'] ,'selling_price' => $request->input('selling_price-'.$id),
@@ -116,7 +116,7 @@ class OrderController extends Controller
           } // service request id is null
           else  {
            
-            $order = Order::create(['total' => $request->total,'payment_method_id' => $request->payment_method_id]);
+            $order = Order::create(['total' => $request->total,'payment_method_id' => $request->payment_method_id,'user_id' => auth()->user()->id]);
             foreach ($request->stocks as $id => $quantity) {
             
               $details = ['quantity' => $quantity['quantity'] ,'selling_price' => $request->input('selling_price-'.$id),
