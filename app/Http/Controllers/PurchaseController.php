@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Purchase;
+use Carbon\Carbon;
 use App\Models\Stock;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,8 +17,16 @@ class PurchaseController extends Controller
      */
     public function index()
     {
+        $total = Purchase::whereBetween('created_at',[Carbon::now()->startOfYear(),Carbon::now()->endOfYear()])->sum('total');
+        $today = Purchase::whereDate('created_at',today())->sum('total');
+        $week = Purchase::whereBetween('created_at',[Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->sum('total');
+        $month = Purchase::whereBetween('created_at',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->sum('total');
         return view('purchase.index')->with([
-            'purchases' => Purchase::orderBy('id','desc')->paginate(20)
+            'purchases' => Purchase::orderBy('id','desc')->paginate(20),
+            'total' => $total ,
+            'today' => $today,
+            'week' => $week,
+            'month' => $month
         ]);
     }
 

@@ -13,6 +13,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SummaryController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\ServiceTypeController;
@@ -67,6 +68,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('cars',CarSizeController::class)->only(['index','update','edit']);
     Route::resource('expense',ExpenseController::class,['except' => 'show']);
     Route::resource('expenseTypes',ExpenseTypeController::class,['except' => 'show']);
+
+    Route::get('summary/search',[SummaryController::class,'search'])->name('summary.search');
+    Route::get('summary',[SummaryController::class,'index'])->name('summary.index');
+    
 });
 
 require __DIR__.'/auth.php';
