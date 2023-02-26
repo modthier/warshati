@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Expense;
 use App\Models\Purchase;
@@ -19,12 +20,19 @@ class SummaryController extends Controller
         $totalServiceRequest = ServiceRequest::whereBetween('created_at',[Carbon::now()->startOfYear(),Carbon::now()->endOfYear()])->sum('amount');
         $totalWorkerRatio = WorkerRatio::whereBetween('created_at',[Carbon::now()->startOfYear(),Carbon::now()->endOfYear()])->sum('amount');
 
+        $netProfit = $totalOrder - ($totalPurchase + $totalExpense );
+        $seriveNetProfit = $totalServiceRequest - $totalWorkerRatio;
+        $totalNetProfit = $netProfit + $seriveNetProfit;
+
         return view('summary.index')->with([
             'totalOrder' => $totalOrder,
             'totalPurchase' => $totalPurchase,
             'totalExpense' => $totalExpense,
             'totalServiceRequest' => $totalServiceRequest,
             'totalWorkerRatio' => $totalWorkerRatio,
+            'netProfit' => $netProfit,
+            'seriveNetProfit' => $seriveNetProfit,
+            'totalNetProfit' => $totalNetProfit,
 
         ]);
     }
@@ -38,12 +46,22 @@ class SummaryController extends Controller
             $totalExpense = Expense::whereRaw('Date(created_at) between ? and ?',[$request->date_from,$request->date_to])->sum('amount');
             $totalServiceRequest = ServiceRequest::whereRaw('Date(created_at) between ? and ?',[$request->date_from,$request->date_to])->sum('amount');
             $totalWorkerRatio = WorkerRatio::whereRaw('Date(created_at) between ? and ?',[$request->date_from,$request->date_to])->sum('amount');
+
+            $netProfit = $totalOrder - ($totalPurchase + $totalExpense );
+            $seriveNetProfit = $totalServiceRequest - $totalWorkerRatio;
+            $totalNetProfit = $netProfit + $seriveNetProfit;
+
+            
         }else {
             $totalOrder = 0;
             $totalPurchase = 0;
             $totalExpense = 0;
             $totalServiceRequest = 0;
             $totalWorkerRatio = 0;
+
+            $netProfit = 0;
+            $seriveNetProfit = 0;
+            $totalNetProfit = 0;
         }
 
         return view('summary.search')->with([
@@ -52,6 +70,9 @@ class SummaryController extends Controller
             'totalExpense' => $totalExpense,
             'totalServiceRequest' => $totalServiceRequest,
             'totalWorkerRatio' => $totalWorkerRatio,
+            'netProfit' => $netProfit,
+            'seriveNetProfit' => $seriveNetProfit,
+            'totalNetProfit' => $totalNetProfit,
 
         ]);
     }
