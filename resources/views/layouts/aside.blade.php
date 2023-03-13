@@ -77,7 +77,7 @@
             </li>
 
             <!-- Layouts -->
-
+			@can('can_access')
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
@@ -97,7 +97,7 @@
                 </li>
               </ul>
             </li>
-
+			@endcan
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
@@ -139,7 +139,8 @@
                 
               </ul>
             </li>
-
+			
+			@can('can_access')
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
@@ -154,8 +155,9 @@
                 </li>
               </ul>
             </li>
-
-
+			@endcan
+			
+			@can('can_access')
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
@@ -170,7 +172,8 @@
                 </li>
               </ul>
             </li>
-
+			
+			@endcan
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
@@ -191,6 +194,8 @@
                 </li>
               </ul>
             </li>
+			
+			@can('can_access')
 
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -224,6 +229,12 @@
                 </li>
 
                 <li class="menu-item">
+                  <a href="{{ route('cars.index') }}" class="menu-link">
+                    <div data-i18n="Without menu">  المركبات </div>
+                  </a>
+                </li>
+
+                <li class="menu-item">
                   <a href="{{ route('setting.index') }}" class="menu-link">
                     <div data-i18n="Without menu">معلومات الورشة</div>
                   </a>
@@ -231,6 +242,7 @@
                 
               </ul>
             </li>
+			@endcan
            
           </ul>
 </aside>

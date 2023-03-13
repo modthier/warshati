@@ -47,13 +47,7 @@ class ExpenseController extends Controller
             'amount' => $request->amount
         ]);
         
-        $type = $expense->expenceType->expense;
-        $expense->movements()->create([
-            'description' => "قيمة منصرف ({$type}) بتاريخ ({$expense->created_at})" ,
-            'amount' => $request->amount,
-            'quantity' => 1,
-            'mvt_type' => 'debit'
-        ]);
+        
 
         if($expense){
             return redirect()->route('expense.index')->with('success','تم حفظ المنصرف بنجاح');

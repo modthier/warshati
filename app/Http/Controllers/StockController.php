@@ -81,4 +81,25 @@ class StockController extends Controller
 
         echo json_encode($response);
     }
+
+
+    public function showChangPrice(Stock $stock)
+    {
+        return view('stock.changePrice')->with('stock',$stock);
+    }
+
+
+    public function updatePrice(Request $request,Stock $stock)
+    {
+        $this->validate($request,[
+            'selling_price' => 'required'
+        ]);
+
+
+       if($stock->update(['selling_price' => $request->selling_price])){
+            return back()->with('success','تم تحديث سعر الشراء بنجاح');
+       }else {
+            return back()->with('error','حصل خطاء حاول مرة اخري');
+       }
+    }
 }

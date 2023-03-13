@@ -14,15 +14,17 @@
                 @method('PUT')
                 <div class="card-body pt-0">
                     <div class="row">
-                        <div class="form-group col-md-6 mb-2">
+                        <div class="form-group col-md-12 mb-2">
                             <label for="car" class="form-label"><h5> حجم المركبة </h5></label>
                             <input type="text" name="car" value="{{ $car->car }}" class="form-control form-control-lg" required>
                         </div>
 
+                        @foreach($serviceType as $service)
                         <div class="form-group col-md-6 mb-2">
-                            <label for="worker_ratio" class="form-label"><h5> نسبة العامل  </h5></label>
-                            <input type="text" name="worker_ratio" value="{{ $car->worker_ratio }}" class="form-control form-control-lg" required>
+                            <label for="ration-{{ $service->id }}" class="form-label"><h5>  نسبة العامل في ({{ $service->type }}) </h5></label>
+                            <input type="text" name="ration-{{ $service->id }}"  class="form-control form-control-lg" required>
                         </div>
+                        @endforeach
 
                     </div>
 

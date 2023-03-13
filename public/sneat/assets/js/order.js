@@ -41,27 +41,27 @@ $('#addItem').on('click',function(e){
  var html = `
      <tr>
          <td>${name}</td>
-         <td><input type="number" step="0.1" min="0" value=""  placeholder="الكمية المشتراه" name="products[${product_id}][quantity]" 
+         <td><input type="number" step="0.01" min="0" value=""  placeholder="الكمية المشتراه" name="products[${product_id}][quantity]" 
              data-id="${product_id}"  
              data-units="${quantity_per_unit}"
              id="quantity-${product_id}" 
              class="form-control quantity">
          </td>
-         <td><input type="number" step="0.1" min="0" value=""  placeholder="الكمية بالوحدة" id="quantity_per_unit-${product_id}"
+         <td><input type="number" step="0.01" min="0" value=""  placeholder="الكمية بالوحدة" id="quantity_per_unit-${product_id}"
              name="quantity_per_unit-${product_id}" 
              class="form-control quantity_per_unit">
          </td>
 
-         <td><input type="number" step="0.1" min="0" value=""  placeholder="سعر البيع للوحدة"  name="selling_price-${product_id}" 
+         <td><input type="number" step="0.01" min="0" value=""  placeholder="سعر البيع للوحدة"  name="selling_price-${product_id}" 
             class="form-control selling_price">
          </td>
 
-         <td><input type="number" step="0.1" min="0" value=""  placeholder="سعر الشراء للوحدة" id="purchase_price-${product_id}"  
+         <td><input type="number" step="0.01" min="0" value=""  placeholder="سعر الشراء للوحدة" id="purchase_price-${product_id}"  
             name="purchase_price-${product_id}" 
             class="form-control purchase_price">
          </td>
 
-         <td><input type="number" step="0.1" name="subtotal-${product_id}"  data-id="${product_id}" data-units="${quantity_per_unit}" class="form-control subtotal" id="subtotal-${product_id}" value="0"></td>
+         <td><input type="number" step="0.01" name="subtotal-${product_id}"  data-id="${product_id}" data-units="${quantity_per_unit}" class="form-control subtotal" id="subtotal-${product_id}" value="0"></td>
          <td><button type="button" data-id="${product_id}" class="btn btn-danger delete-product"><i class="bx bxs-trash"></button></td>
          
      </tr>

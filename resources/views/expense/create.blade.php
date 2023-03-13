@@ -25,7 +25,7 @@
                                 <select name="expense_type_id" class="form-control" required>
                                     <option value=""></option>
                                     @foreach ($expenseTypes as $item)
-                                        <option value="{{ $item->id }}">{{ $item->expense }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

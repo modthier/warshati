@@ -48,7 +48,7 @@ $('#addItem').on('click',function(e){
  var html = `
      <tr>
          <td>${name}</td>
-         <td><input type="number" step="0.1" min="1" value="1" name="stocks[${stock_id}][quantity]" 
+         <td><input type="number" step="0.01" min="1" value="1" name="stocks[${stock_id}][quantity]" 
              data-id="${stock_id}"  
              id="quantity-${stock_id}"
              data-avl="${quantity}"
@@ -59,7 +59,7 @@ $('#addItem').on('click',function(e){
              name="purchase_price-${stock_id}"
              class="form-control purchase_price">
          </td>
-         <td><input type="number" step="0.1" value="${price}" id="price-${stock_id}"
+         <td><input type="number" step="0.01" value="${price}" id="price-${stock_id}"
              data-id="${stock_id}" 
              name="selling_price-${stock_id}"
              class="form-control price">

@@ -25,7 +25,7 @@
                             <tbody>
                                 @forelse ($expenses as $expense)
                                 <tr>
-                                    <td>{{ $expense->expenceType->expense }}</td>
+                                    <td>{{ $expense->expenceType->name }}</td>
                                     <td>{{ $expense->amount }}</td>
                                     <td>
                                         <div>

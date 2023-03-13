@@ -111,15 +111,15 @@
         
                     <div id="bot" class="mt-3" style="direction: rtl;">
                     <div class="mb-3">
-                          
-                          <table class="table table-sm table_invoice">
+                          <h3 style="text-align:center; color:#000000; font-weight:bolder;"> {{ $setting->first()->name }} </h3>
+                          <table border="1" class="table table-sm table_invoice">
                              
-                                  <thead>
-                                      <th style=" color: #000000;" class="table_invoice"> الخدمة  </th>
-                                      <th style=" color: #000000;" class="table_invoice"> السعر </th>
+                                  <thead style="border:1px solid black;">
+                                      <th style=" color: #000000; font-weight:bolder; font-size:20px;" class="table_invoice"> الخدمة  </th>
+                                      <th style=" color: #000000; font-weight:bolder; font-size:20px;" class="table_invoice"> السعر </th>
                                   </thead>
               
-                                  <tbody>
+                                  <tbody style="border:1px solid black;">
                                       
                                       @foreach($service->service as $item)
                                       <tr>

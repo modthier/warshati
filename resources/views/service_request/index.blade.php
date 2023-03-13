@@ -1,6 +1,40 @@
 @extends('layouts.sneat')
 @section('content')
 
+<div class="col-md-6 col-xl-4">
+<div class="card bg-primary text-white mb-3">
+    <div class="card-header">مجموع خدمات اليوم</div>
+    <div class="card-body">
+    <h5 class="card-title text-white">{{ number_format($today_service,2) }} جنيه</h5>
+    
+    </div>
+</div>
+</div>
+
+
+<div class="col-md-6 col-xl-4">
+<div class="card bg-primary text-white mb-3">
+    <div class="card-header">مجموع خدمات الاسبوع</div>
+    <div class="card-body">
+    <h5 class="card-title text-white">{{ number_format($week_service,2) }} جنيه</h5>
+    
+    </div>
+</div>
+</div>
+
+
+<div class="col-md-6 col-xl-4">
+<div class="card bg-primary text-white mb-3">
+    <div class="card-header">مجموع خدمات الشهر</div>
+    <div class="card-body">
+    <h5 class="card-title text-white">{{ number_format($month_service,2) }} جنيه</h5>
+    
+    </div>
+</div>
+</div>
+
+
+
 
     <div class="col-lg-12">
         <div class="card">

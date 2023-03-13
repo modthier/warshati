@@ -55,7 +55,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('product.show')->with('product',$product);
     }
 
     /**
@@ -66,7 +66,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('product.edit')->with([
+            'product' => $product,
+            'units' => Unit::all()
+        ]);
     }
 
     /**
@@ -76,9 +79,13 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductFormRequest $request, Product $product)
     {
-        //
+        if($product->update($request->validated())){
+            return back()->with('success','تم تحديث المنتج بنجاح');
+        }else {
+            return back()->with('error','حصل خطاء حاول مرة اخري');
+        }
     }
 
     /**
@@ -89,7 +96,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return back()->with('success','تم حذف المنتج بنجاح');
     }
 
 
@@ -110,7 +118,18 @@ class ProductController extends Controller
               'data-quantity' => "{$product->quantity_per_package}"
            );
        }
-
+ 
        echo json_encode($response);
+    }
+
+    public function search(Request $request)
+    {
+        $this->validate($request,[
+            'q' => 'required'
+        ]);
+
+        $results = Product::where('name','like',"%".$request->q."%")->paginate(20);
+
+        return view('product.search')->with('results',$results);
     }
 }

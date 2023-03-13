@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('ratios', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('car_size_id')->references('id')->on('car_sizes')->onDelete('cascade');
+            $table->foreignId('service_type_id')->nullable()->references('id')->on('service_types')->onDelete('cascade');
+            $table->double('ration');
             $table->timestamps();
         });
     }

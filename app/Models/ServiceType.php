@@ -14,4 +14,11 @@ class ServiceType extends Model
     {
         return $this->hasMany(Service::class);
     }
+
+    public function carSize()
+    {
+        return $this->belongsToMany(CarSize::class,'ratios','service_type_id','car_size_id')
+            ->withPivot(['ratio'])
+            ->withTimestamps();
+    }
 }

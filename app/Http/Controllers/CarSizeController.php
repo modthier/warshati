@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CarSize;
+use App\Models\ServiceType;
 use Illuminate\Http\Request;
 
 class CarSizeController extends Controller
@@ -26,26 +27,29 @@ class CarSizeController extends Controller
     public function edit($id)
     {
         $carSize = CarSize::find($id);
-        return view('car.edit')->with('car',$carSize);
+        return view('car.edit')->with([
+            'car' => $carSize ,
+            'serviceType' => ServiceType::all()
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CarSize  $carSize
-     * @return \Illuminate\Http\Response
-     */
+  
     public function update(Request $request, $id)
     {
         $this->validate($request,[
             'car' => 'required',
-            'worker_ratio' => 'required'
+            'ratio-*' => 'required'
         ]);
         
         $carSize = CarSize::find($id);
+        $serviceType = ServiceType::all();
+        $carSize->serviceType()->detach();
+        foreach ($serviceType as $key => $item) {
+            $carSize->serviceType()->attach($item->id,['ratio' => $request->input('ration-'.$item->id)]);
+        }
+        
 
-        if($carSize->update(['car' => $request->car ,'worker_ratio' => $request->worker_ratio])){
+        if($carSize->update(['car' => $request->car])){
             return redirect()->route('cars.index')->with('success','تم التحديث بنجاح');
         }else {
             return back()->with('error','حصل خطاء حاول مرة اخري');

@@ -24,7 +24,23 @@
                                 @forelse ($cars as $car)
                                 <tr>
                                     <td>{{ $car->car }}</td>
-                                    <td>{{ $car->worker_ratio }}</td>
+                                    <td>
+                                        @if($car->serviceType)
+                                        <table class="table table-bordered">
+                                            @foreach($car->serviceType as $head)
+                                            <th>{{ $head->type }}</th>
+                                            @endforeach
+
+                                           
+                                            <tr>
+                                                @foreach($car->serviceType as $tr)
+                                                <td>{{ $tr->pivot->ratio }}</td>
+                                                @endforeach
+                                            </tr>
+                                            
+                                        </table>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="d-flex  align-items-center">
                                            <a href="{{ route('cars.edit',$car->id) }}" class="btn btn-success m-2">تعديل</a>   

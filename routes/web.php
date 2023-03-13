@@ -37,9 +37,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/',[HomeController::class,'index'])->name('home');
     
     Route::get('product/getProduct',[ProductController::class,'getProducts']);
+    Route::get('product/search',[ProductController::class,'search'])->name('product.search');
     Route::resource('product',ProductController::class);
     Route::resource('unit',UnitController::class);
     Route::resource('purchase',PurchaseController::class);
+    Route::post('stock/updatePrice/{stock}',[StockController::class,'updatePrice'])->name('stock.updatePrice');
+    Route::get('stock/showChangPrice/{stock}',[StockController::class,'showChangPrice'])->name('stock.showChangPrice');
     Route::get('stock/getStock',[StockController::class,'getStock']);
     Route::resource('stock',StockController::class,['except' => ['edit','create','delete','update']]);
     Route::resource('order',OrderController::class);

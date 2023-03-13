@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ratio;
 use Exception;
 use App\Models\Order;
 use App\Models\Worker;
@@ -13,6 +14,7 @@ use App\Models\PaymentMethod;
 use App\Models\ServiceRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class ServiceRequestController extends Controller
 {
@@ -24,7 +26,15 @@ class ServiceRequestController extends Controller
     public function index()
     {
         $service_requests = ServiceRequest::orderBy('id','desc')->paginate(20);
-        return view('service_request.index')->with('service_requests',$service_requests);
+        $today_service = ServiceRequest::whereDate('created_at',today())->sum('amount');
+        $week_service = ServiceRequest::whereBetween('created_at',[Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->sum('amount');
+        $month_service = ServiceRequest::whereBetween('created_at',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->sum('amount');
+        return view('service_request.index')->with([
+            'service_requests' => $service_requests,
+            'today_service' => $today_service,
+            'week_service' => $week_service,
+            'month_service' => $month_service,
+        ]);
     }
 
     /**
@@ -42,12 +52,7 @@ class ServiceRequestController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
         
@@ -78,8 +83,8 @@ class ServiceRequestController extends Controller
           foreach ($request->services as $id => $price) {
             $service = Service::findOrFail($id);
             if($service->service_type->has_ratio){
-                $car = CarSize::findOrFail($request->car_id);
-                $ratio = $price['price'] * ($car->worker_ratio / 100);
+                $car = Ratio::where('service_type_id',$service->service_type_id)->where('car_size_id',$request->car_id)->first();
+                $ratio = $price['price'] * ($car->ratio / 100);
                 WorkerRatio::create([
                     'service_request_id' => $serviceRequest->id,
                     'service_id' => $id,
@@ -95,7 +100,7 @@ class ServiceRequestController extends Controller
            return redirect()->route('service_request.show',$serviceRequest->id)->with('success','تم حفظ الخدمة بنجاح');
         } catch (Exception $e) {
            DB::rollBack();
-           return back()->with('error','حصل خطاء حاول مرة اخري');
+           return back()->withErrors($e->getMessage());
         }
     }
 
@@ -107,27 +112,19 @@ class ServiceRequestController extends Controller
      */
     public function show(ServiceRequest $serviceRequest)
     {
-        return view('service_request.show')->with('service',$serviceRequest);
+        return view('service_request.show')->with([
+            'service' => $serviceRequest,
+            'setting' => \App\Models\Setting::all()
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ServiceRequest  $serviceRequest
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit(ServiceRequest $serviceRequest)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ServiceRequest  $serviceRequest
-     * @return \Illuminate\Http\Response
-     */
+   
     public function update(Request $request, ServiceRequest $serviceRequest)
     {
         $validator = Validator::make($request->all(),[

@@ -1,7 +1,23 @@
 @extends('layouts.sneat')
 @section('content')
 
-
+    <div class="col-lg-12 mb-3">
+        <div class="card">
+            <div class="card-header">
+                <h4> ابحث في المنتجات </h4>
+            </div>  
+            <div class="card-body">
+                <form action="{{ route('product.search') }}" method="get">
+                    <div class="row mb-3">
+                        <div class="form-group col-lg-12">
+                            <input type="search" name="q" class="form-control" required>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-success" value="بحث">
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -24,6 +40,7 @@
                                 <th>اقل وحدة للبيع</th>
                                 <th>الباركود</th>
                                 <th>عدد الوحدات في العبوة</th>
+                                <th>لديه مخزون</th>
                                 <th>عمليات</th>
                             </tr>
                             <tbody>
@@ -34,8 +51,16 @@
                                     <td>{{ $product->barcode }}</td>
                                     <td>{{ $product->quantity_per_package }}</td>
                                     <td>
+                                        @if($product->stock->count() > 0)
+                                            نعم
+                                        @else
+                                            لا
+                                        @endif
+                                    </td>
+                                    <td>
                                         <div class="d-flex  align-items-center">
                                            <a href="{{ route('product.edit',$product->id) }}" class="btn btn-success m-2">تعديل</a>
+                                           @if($product->stock->count() == 0)
                                            <form id="delete_product_{{ $product->id }}"  action="{{ route('product.destroy',$product->id) }}"
                                             method="post">
                                               @csrf
@@ -45,6 +70,7 @@
                                                   if (r == true) {document.getElementById('delete_product_{{ $product->id }}').submit();}">حذف</button>
                               
                                             </form>   
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

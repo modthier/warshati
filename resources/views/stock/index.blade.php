@@ -18,6 +18,7 @@
                                 <th>سعر الشراء للوحدة</th>
                                 <th>سعر البيع للوحدة</th>
                                 <th> مجموع المتوفر حاليا بسعر الشراء</th>
+                                <th>عمليات</th>
                                
 
                             </tr>
@@ -30,6 +31,7 @@
                                     <td>{{ $stock->purchase_price }}</td>
                                     <td>{{ $stock->selling_price }}</td>
                                     <td>{{ number_format($stock->purchase_price * $stock->quantity ) }}</td>
+                                    <td> <a href="{{ route('stock.showChangPrice',$stock->id) }}" class="btn btn-primary">تعديل سعر البيع</a> </td>
                                     
                                 </tr>
                             @empty
